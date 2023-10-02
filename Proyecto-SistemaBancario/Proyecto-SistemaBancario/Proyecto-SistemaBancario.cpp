@@ -1,9 +1,11 @@
-#include <iostream>
-#include "listaCliente.h"
-using namespace std;
+#include "Interfaz.h"
 
-int main()
-{
+int main() {
+	Interfaz* i = new Interfaz();
+	i->iniciar();
+	delete i;
+	/* Colocar en Interfaz, ya que no sé si se va a iniciar con clientes, o crear todos los clientes desde la opción en el menu
+
 	listaCliente* lista = new listaCliente();
 
 	Cliente* c1 = new Cliente("Alfredo", "2086757976", 50000.0);
@@ -34,10 +36,5 @@ int main()
 
 	lista->eliminarCliente("2086757976");
 	cout << "Lista despues de eliminar " << endl << endl;
-	cout << lista->mostrarCliente();
-
-
-
-
-
+	cout << lista->mostrarCliente();*/
 }
