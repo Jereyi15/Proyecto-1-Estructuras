@@ -94,3 +94,39 @@ string listaCliente::mostrarCedulas() {
 	}
 	return s.str();
 }
+
+// deposita saldo segun la cedula digitada
+void listaCliente::depositarSaldo(string cedula, double deposito) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			(*i)->setSaldo((*i)->getSaldo() + deposito);
+			return;
+		}
+	}
+}
+
+// retira saldo segun la cedula digitada
+void listaCliente::retirarSaldo(string cedula, double deposito) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			(*i)->setSaldo((*i)->getSaldo() - deposito);
+			return;
+		}
+	}
+}
+
+// verifica que el saldo a retirar sea menor al saldo que posee el cliente
+bool listaCliente::verificarSaldoRetirar(string cedula, double saldoRetirar) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			double saldoCliente = (*i)->getSaldo();
+			if (saldoRetirar <= saldoCliente) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	return false;
+}

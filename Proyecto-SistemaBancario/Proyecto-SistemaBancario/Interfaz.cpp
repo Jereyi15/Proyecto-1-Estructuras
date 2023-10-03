@@ -43,9 +43,9 @@ void Interfaz::menuOperacionesBancarias() {
     cout << "-------------------------------\n";
     cout << "Operaciones Bancarias.\n";
     cout << "|¿Que deseas hacer?|\n";
-    cout << "1. Depositar dinero.\n";
-    cout << "2. Retirar dinero.\n";
-    cout << "3. Transferir dinero.\n";
+    cout << "1. Depositar saldo.\n"; // listo
+    cout << "2. Retirar saldo.\n"; // listo
+    cout << "3. Transferir saldo.\n";
     cout << "4. Volver al menu del cliente.\n"; // listo
     cout << "-------------------------------\n";
 }
@@ -165,12 +165,66 @@ void Interfaz::iniciar() {
                         system("cls");
                         switch (opc) {
                         case 1:
-                            // Depositar dinero
-
+                            // Depositar saldo
+                            cout << "----------------------\n";
+                            cout << "Cedulas disponibles:\n";
+                            cout << clientes->mostrarCedulas();
+                            cout << "----------------------\n\n";
+                            cout << "Digite la cedula del cliente a depositar saldo: ";
+                            cin >> cedula;
+                            if (clientes->encontrarCliente(cedula)) {
+                                cout << "Digite el saldo a depositar: ";
+                                saldo = Utiles::validarDecimal();
+                                if (saldo > 0) {
+                                    clientes->depositarSaldo(cedula, saldo);
+                                    cout << "\n-----------------\n";
+                                    cout << "Deposito exitoso.\n";
+                                    cout << "-----------------\n";
+                                }
+                                else {
+                                    cout << "\n----------------------------\n";
+                                    cout << "El saldo debe ser mayor a 0.\n";
+                                    cout << "----------------------------\n";
+                                }
+                            }
+                            else {
+                                cout << "\n----------------------------\n";
+                                cout << "La cedula no fue encontrada.\n";
+                                cout << "----------------------------\n";
+                            }
+                            system("pause");
+                            system("cls");
                             break;
                         case 2:
-                            // Retirar dinero
-
+                            // Retirar saldo
+                            cout << "----------------------\n";
+                            cout << "Cedulas disponibles:\n";
+                            cout << clientes->mostrarCedulas();
+                            cout << "----------------------\n\n";
+                            cout << "Digite la cedula del cliente a retirar saldo: ";
+                            cin >> cedula;
+                            if (clientes->encontrarCliente(cedula)) {
+                                cout << "Digite el saldo a retirar: ";
+                                saldo = Utiles::validarDecimal();
+                                if (saldo > 0 && clientes->verificarSaldoRetirar(cedula, saldo)) {
+                                    clientes->retirarSaldo(cedula, saldo);
+                                    cout << "\n---------------\n";
+                                    cout << "Retiro exitoso.\n";
+                                    cout << "---------------\n";
+                                }
+                                else {
+                                    cout << "\n----------------------------------------------------------------------------------\n";
+                                    cout << "El saldo debe ser mayor a 0 y menor a la cantidad de saldo que posee en la cuenta.\n";
+                                    cout << "----------------------------------------------------------------------------------\n";
+                                }
+                            }
+                            else {
+                                cout << "\n----------------------------\n";
+                                cout << "La cedula no fue encontrada.\n";
+                                cout << "----------------------------\n";
+                            }
+                            system("pause");
+                            system("cls");
                             break;
                         case 3:
                             // Transferir dinero
