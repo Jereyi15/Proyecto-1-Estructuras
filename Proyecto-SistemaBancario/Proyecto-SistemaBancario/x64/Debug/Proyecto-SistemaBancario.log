@@ -1,0 +1,8 @@
+﻿  Cliente.cpp
+  Interfaz.cpp
+  listaCliente.cpp
+C:\Users\HP\Music\proyecto-1\Proyecto-1-Estructuras\Proyecto-SistemaBancario\Proyecto-SistemaBancario\listaCliente.cpp(47,52): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Proyecto-SistemaBancario.cpp
+  Utiles.cpp
+  Generando código...
+  Proyecto-SistemaBancario.vcxproj -> C:\Users\HP\Music\proyecto-1\Proyecto-1-Estructuras\Proyecto-SistemaBancario\x64\Debug\Proyecto-SistemaBancario.exe
