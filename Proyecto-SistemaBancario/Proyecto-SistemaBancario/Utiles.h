@@ -6,6 +6,7 @@ class Utiles
 {
 public:
 	static int validarEntero();
+	static double validarDecimal();
 	static string opcionInvalida();
 
 protected:

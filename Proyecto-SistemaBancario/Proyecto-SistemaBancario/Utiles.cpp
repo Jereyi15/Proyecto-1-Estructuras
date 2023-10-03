@@ -28,6 +28,26 @@ int Utiles::validarEntero() {
 	return opcion;
 }
 
+//Este método valida si la entrada es de un double
+double Utiles::validarDecimal() {
+	double entrada = 0.0;
+	bool estado = false;
+	while (estado == false) {
+		if (!(cin >> entrada)) {
+			cout << "-------------------------------------\n";
+			cout << "La entrada debe ser un valor decimal.";
+			cout << "\n-------------------------------------";
+			cin.clear();
+			cout << "\nDigite nuevamente: ";
+		}
+		else {
+			estado = true;
+		}
+		cin.ignore(1000, '\n');
+	}
+	return entrada;
+}
+
 //Este método solo envía un mensaje de que la opción es invalida
 string Utiles::opcionInvalida() {
 	stringstream s;

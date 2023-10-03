@@ -66,5 +66,31 @@ void listaCliente::OrdenamientoRadix() {
 			}
 		}
 	}
+}
 
+// busca cliente, si lo encuentra retorna true
+bool listaCliente::encontrarCliente(string cedula) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// retorna true si se encontraron clientes en la lista
+bool listaCliente::hayClientes() {
+	if (clientes.size() > 0) {
+		return true;
+	}
+	return false;
+}
+
+// muestra todas las cedulas
+string listaCliente::mostrarCedulas() {
+	stringstream s;
+	for (const auto& it : clientes) {
+		s << (it)->getCedula() << endl;
+	}
+	return s.str();
 }

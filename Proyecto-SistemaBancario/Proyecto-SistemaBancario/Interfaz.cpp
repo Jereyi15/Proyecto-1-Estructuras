@@ -1,6 +1,6 @@
 #include "Interfaz.h"
 
-Interfaz::Interfaz() : opc(-1) {
+Interfaz::Interfaz() : opc(-1), clientes(new listaCliente()) {
 
 }
 
@@ -14,7 +14,7 @@ void Interfaz::menuPrincipal() {
     cout << "|¿Que deseas hacer?|\n";
     cout << "1. Ingresar como Cliente.\n";
     cout << "2. Ingresar como Gerente.\n";
-    cout << "3. Salir.\n";
+    cout << "3. Salir.\n"; // listo
     cout << "-------------------------------\n";
 }
 
@@ -24,7 +24,7 @@ void Interfaz::menuCliente() {
     cout << "|¿Que deseas hacer?|\n";
     cout << "1. Gestion de Clientes.\n";
     cout << "2. Operaciones Bancarias.\n";
-    cout << "3. Volver al menu principal.\n";
+    cout << "3. Volver al menu principal.\n"; // listo
     cout << "---------------------------------------------\n";
 }
 
@@ -32,9 +32,10 @@ void Interfaz::menuGestionClientes() {
     cout << "-------------------------------\n";
     cout << "Gestion de Clientes.\n";
     cout << "|¿Que deseas hacer?|\n";
-    cout << "1. Registrar Cliente.\n";
-    cout << "2. Eliminar Cliente.\n";
-    cout << "3. Volver al menu del cliente.\n";
+    cout << "1. Registrar Cliente.\n"; // listo
+    cout << "2. Eliminar Cliente.\n"; // listo
+    cout << "3. Mostrar Clientes.\n"; // listo
+    cout << "4. Volver al menu del cliente.\n"; // listo
     cout << "-------------------------------\n";
 }
 
@@ -45,7 +46,7 @@ void Interfaz::menuOperacionesBancarias() {
     cout << "1. Depositar dinero.\n";
     cout << "2. Retirar dinero.\n";
     cout << "3. Transferir dinero.\n";
-    cout << "4. Volver al menu del cliente.\n";
+    cout << "4. Volver al menu del cliente.\n"; // listo
     cout << "-------------------------------\n";
 }
 
@@ -57,11 +58,15 @@ void Interfaz::menuGerente() {
     cout << "2. Registro de solicitudes de tarjetas.\n";
     cout << "3. Historial de Transacciones.\n";
     cout << "4. Aceptacion y cancelacion de tranferencias.\n";
-    cout << "5. Volver al menu principal.\n";
+    cout << "5. Volver al menu principal.\n"; // listo
     cout << "-------------------------------------------------------\n";
 }
 
 void Interfaz::iniciar() {
+
+    Cliente* cliente;
+    string nombre, cedula;
+    double saldo;
 
     do {
         menuPrincipal();
@@ -84,13 +89,63 @@ void Interfaz::iniciar() {
                         switch (opc) {
                         case 1:
                             // Registrar Cliente
-
+                            cout << "-------------------------------------------\n";
+                            cout << "Digite el nombre del nuevo cliente: ";
+                            getline(cin, nombre);
+                            cout << "Digite la cedula del nuevo cliente: ";
+                            cin >> cedula;
+                            while (clientes->encontrarCliente(cedula)) {
+                                cout << "La cedula ya existe, por favor digite otra: ";
+                                cin >> cedula;
+                            }
+                            cout << "Digite el saldo del nuevo cliente: ";
+                            saldo = Utiles::validarDecimal();
+                            cout << "-------------------------------------------\n";
+                            cliente = new Cliente(nombre, cedula, saldo);
+                            clientes->agregarCliente(cliente);
+                            cout << "\n------------------------------\n";
+                            cout << "Cliente agregado exitosamente.\n";
+                            cout << "------------------------------\n";
+                            system("pause");
+                            system("cls");
                             break;
                         case 2:
                             // Eliminar Cliente
-
+                            cout << "----------------------\n";
+                            cout << "Cedulas disponibles:\n";
+                            cout << clientes->mostrarCedulas();
+                            cout << "----------------------\n\n";
+                            cout << "Digite la cedula del cliente a eliminar: ";
+                            cin >> cedula;
+                            if (clientes->encontrarCliente(cedula)) {
+                                clientes->eliminarCliente(cedula);
+                                cout << "\n----------------------------\n";
+                                cout << "Cliente eliminado con exito.\n";
+                                cout << "----------------------------\n";
+                            }
+                            else {
+                                cout << "\n----------------------------\n";
+                                cout << "La cedula no fue encontrada.\n";
+                                cout << "----------------------------\n";
+                            }
+                            system("pause");
+                            system("cls");
                             break;
                         case 3:
+                            // Mostrar Clientes
+                            if (clientes->hayClientes()) {
+                                clientes->OrdenamientoRadix();
+                                cout << clientes->mostrarCliente();
+                            }
+                            else {
+                                cout << "\n---------------------------------------\n";
+                                cout << "No hay clientes en el sistema bancario.\n";
+                                cout << "---------------------------------------\n";
+                            }
+                            system("pause");
+                            system("cls");
+                            break;
+                        case 4:
                             // Volver al menu del cliente
                             break;
                         default:
@@ -99,7 +154,7 @@ void Interfaz::iniciar() {
                             system("cls");
                             break;
                         }
-                    } while (opc != 3);
+                    } while (opc != 4);
                     opc = 0;
                     break;
                 case 2:

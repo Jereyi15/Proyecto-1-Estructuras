@@ -13,6 +13,9 @@ public:
 	void cambiarSalario(string, double);
 	int posDigito(double, int);
 	void OrdenamientoRadix();
+	bool encontrarCliente(string cedula);
+	bool hayClientes();
+	string mostrarCedulas();
 
 };
 

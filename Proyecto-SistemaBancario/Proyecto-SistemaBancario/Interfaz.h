@@ -1,6 +1,7 @@
 #include <string>
 
 #include "Utiles.h"
+#include "listaCliente.h"
 
 class Interfaz
 {
@@ -18,4 +19,5 @@ public:
 
 private:
 	int opc;
+	listaCliente* clientes;
 };
