@@ -1,5 +1,4 @@
 #include "Interfaz.h"
-
 int main() {
 	Interfaz* i = new Interfaz();
 	i->iniciar();
