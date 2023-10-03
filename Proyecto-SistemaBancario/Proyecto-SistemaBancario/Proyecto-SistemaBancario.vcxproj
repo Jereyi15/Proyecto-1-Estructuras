@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cliente.cpp" />
+    <ClCompile Include="GeneradorCuentas.cpp" />
     <ClCompile Include="Interfaz.cpp" />
     <ClCompile Include="listaCliente.cpp" />
     <ClCompile Include="Proyecto-SistemaBancario.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cliente.h" />
+    <ClInclude Include="GeneradorCuentas.h" />
     <ClInclude Include="Interfaz.h" />
     <ClInclude Include="listaCliente.h" />
     <ClInclude Include="Utiles.h" />

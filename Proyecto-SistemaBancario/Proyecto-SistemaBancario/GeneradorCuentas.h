@@ -1,0 +1,9 @@
+class GeneradorCuentas
+{
+public:
+	//
+
+private:
+	//
+
+};
