@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 using namespace std;
 
@@ -7,3 +8,11 @@ int main()
     //lcbsd
 
 }
+=======
+#include "Interfaz.h"
+int main() {
+	Interfaz* i = new Interfaz();
+	i->iniciar();
+	delete i;
+}
+>>>>>>> main

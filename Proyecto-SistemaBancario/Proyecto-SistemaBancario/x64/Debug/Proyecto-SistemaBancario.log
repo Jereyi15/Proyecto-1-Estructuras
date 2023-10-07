@@ -1,0 +1,6 @@
+﻿  Interfaz.cpp
+  Proyecto-SistemaBancario.cpp
+  listaCliente.cpp
+C:\Users\gevr0\Desktop\Proyecto I Estructuras de Datos\Proyecto-1-Estructuras\Proyecto-SistemaBancario\Proyecto-SistemaBancario\listaCliente.cpp(47,50): warning C4267: '=': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Generando código...
+  Proyecto-SistemaBancario.vcxproj -> C:\Users\gevr0\Desktop\Proyecto I Estructuras de Datos\Proyecto-1-Estructuras\Proyecto-SistemaBancario\x64\Debug\Proyecto-SistemaBancario.exe
