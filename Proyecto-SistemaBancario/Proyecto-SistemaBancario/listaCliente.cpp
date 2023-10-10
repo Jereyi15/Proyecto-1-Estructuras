@@ -147,3 +147,34 @@ string listaCliente::mostrarCuentasBancarias() {
 	}
 	return s.str();
 }
+//nuevo
+bool listaCliente::transferenciaBancaria(int cuenta, Cliente* clienteTransferir, double monto) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getNumCuenta() == cuenta) {
+			double saldo = (*i)->getSaldo();
+			double saldoNuevo;
+			if (verificarSaldoRetirar(cuenta, saldo) == true) {
+				saldo -= monto; //Se le resta la cantidad que transfiere
+				(*i)->setSaldo(saldo);
+				saldoNuevo = clienteTransferir->getSaldo();
+				saldoNuevo += monto; 
+				clienteTransferir->setSaldo(saldoNuevo); //Se le setea el saldo nuevo al cliente transferido
+				return true; //indica que la transferencia se hizo correctamente
+			}
+			else {
+				return false; //no hay suficientes fondos
+			}
+			
+		}
+	}
+}
+
+//nuevo
+Cliente* listaCliente::encontrarClienteObj(int cuenta) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getNumCuenta() == cuenta) {
+			return (*i);
+		}
+	}
+	return nullptr;
+}

@@ -68,7 +68,7 @@ void Interfaz::iniciar() {
     GeneradorCuentas* generador = new GeneradorCuentas();
     string nombre, cedula;
     double saldo = 0.0;
-    int cuenta = 0; 
+    int cuenta = 0, cuenta2 = 0;
 
     do {
         menuPrincipal();
@@ -231,7 +231,54 @@ void Interfaz::iniciar() {
                             break;
                         case 3:
                             // Transferir dinero
+                            cout << "----------------------\n";
+                            cout << "Cuentas bancarias disponibles:\n";
+                            cout << clientes->mostrarCuentasBancarias();
+                            cout << "----------------------\n\n";
+                            cout << "Digite la cuenta bancaria del cliente que va a transferir saldo entre cuentas: ";
+                            cin >> cuenta;
+                            if (clientes->encontrarClienteNum(cuenta)) {
+                                system("pause");
+                                system("cls");
+                          
+                                cout << "----------------------\n";
+                                cout << "Cuentas bancarias disponibles:\n";
+                                cout << clientes->mostrarCuentasBancarias();
+                                cout << "----------------------\n\n";
+                                cout << "Digite la cuenta bancaria a la que desea transferir el dinero: ";
+                                cin >> cuenta2;
+                                if (clientes->encontrarClienteNum(cuenta2)) {
+                                    cout << "Digite el monto que desea transferir: ";
+                                    cin >> saldo;
 
+                                    // Obtener el primer cliente
+                                    Cliente* clienteOrigen = clientes->encontrarClienteObj(cuenta);
+                                    // Obtener el segundo cliente
+                                    Cliente* clienteDestino = clientes->encontrarClienteObj(cuenta2);
+
+                                    //Transferencia
+                                    if (clientes->transferenciaBancaria(cuenta, clienteDestino, saldo)) {
+                                        cout << "\n-----------------\n";
+                                        cout << "Transferencia exitosa.\n";
+                                        cout << "-----------------\n";
+                                    }
+                                    else {
+                                        cout << "\n----------------------------\n";
+                                        cout << "No hay suficientes fondos o la cuenta origen no fue encontrada.\n";
+                                        cout << "----------------------------\n";
+                                    }
+                                }
+                                else {
+                                    cout << "\n----------------------------\n";
+                                    cout << "La cuenta bancaria a la que desea transferir el dinero no fue encontrada.\n";
+                                    cout << "----------------------------\n";
+                                }
+                            }
+                            else {
+                                cout << "\n----------------------------\n";
+                                cout << "La cuenta bancaria no fue encontrada.\n";
+                                cout << "----------------------------\n";
+                            }
                             break;
                         case 4:
                             // Volver al menu del cliente
