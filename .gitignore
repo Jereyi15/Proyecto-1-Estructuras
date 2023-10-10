@@ -12,3 +12,23 @@
 *.lock
 
 *.db-wal
+
+Proyecto-SistemaBancario/.vs/Proyecto-SistemaBancario/v17/.suo
+
+*.obj
+
+*.recipe
+
+*.ilk
+
+*.log
+
+*.tlog
+
+*.lastbuildstate
+
+*.idb
+
+*.pdb
+
+*.exe

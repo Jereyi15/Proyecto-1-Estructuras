@@ -1,4 +1,5 @@
 #pragma once
+#include "GeneradorCuentas.h"
 #include <string>
 using namespace std;
 class Cliente {
@@ -17,5 +18,10 @@ public:
 	double getSaldo();
 	string toString();
 
+	void setNumCuenta(GeneradorCuentas*); //nuevo
+	int getNumCuenta(); //nuevo
+
+private: 
+	int numeroCuenta; //nuevo
 };
 

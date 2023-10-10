@@ -14,11 +14,13 @@ public:
 	int posDigito(double, int);
 	void OrdenamientoRadix();
 	bool encontrarCliente(string);
+	bool encontrarClienteNum(int);
 	bool hayClientes();
 	string mostrarCedulas();
-	void depositarSaldo(string, double);
-	void retirarSaldo(string, double);
-	bool verificarSaldoRetirar(string, double);
+	void depositarSaldo(int, double);
+	void retirarSaldo(int, double);
+	bool verificarSaldoRetirar(int, double);
+	string mostrarCuentasBancarias();
 
 };
 

@@ -68,10 +68,18 @@ void listaCliente::OrdenamientoRadix() {
 	}
 }
 
-// busca cliente, si lo encuentra retorna true
+// busca cliente, si lo encuentra retorna true //actualizado
 bool listaCliente::encontrarCliente(string cedula) {
 	for (auto i = clientes.begin(); i != clientes.end(); i++) {
 		if ((*i)->getCedula() == cedula) {
+			return true;
+		}
+	}
+	return false;
+}
+bool listaCliente::encontrarClienteNum(int cuenta) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getNumCuenta() == cuenta) {
 			return true;
 		}
 	}
@@ -95,30 +103,30 @@ string listaCliente::mostrarCedulas() {
 	return s.str();
 }
 
-// deposita saldo segun la cedula digitada
-void listaCliente::depositarSaldo(string cedula, double deposito) {
+// deposita saldo segun la cedula digitada //actualizado
+void listaCliente::depositarSaldo(int cuenta, double deposito) {
 	for (auto i = clientes.begin(); i != clientes.end(); i++) {
-		if ((*i)->getCedula() == cedula) {
+		if ((*i)->getNumCuenta() == cuenta) {
 			(*i)->setSaldo((*i)->getSaldo() + deposito);
 			return;
 		}
 	}
 }
 
-// retira saldo segun la cedula digitada
-void listaCliente::retirarSaldo(string cedula, double deposito) {
+// retira saldo segun la cedula digitada //actualizado
+void listaCliente::retirarSaldo(int cuenta, double deposito) {
 	for (auto i = clientes.begin(); i != clientes.end(); i++) {
-		if ((*i)->getCedula() == cedula) {
+		if ((*i)->getNumCuenta() == cuenta) {
 			(*i)->setSaldo((*i)->getSaldo() - deposito);
 			return;
 		}
 	}
 }
 
-// verifica que el saldo a retirar sea menor al saldo que posee el cliente
-bool listaCliente::verificarSaldoRetirar(string cedula, double saldoRetirar) {
+// verifica que el saldo a retirar sea menor al saldo que posee el cliente //actualizado 
+bool listaCliente::verificarSaldoRetirar(int cuenta, double saldoRetirar) {
 	for (auto i = clientes.begin(); i != clientes.end(); i++) {
-		if ((*i)->getCedula() == cedula) {
+		if ((*i)->getNumCuenta() == cuenta) {
 			double saldoCliente = (*i)->getSaldo();
 			if (saldoRetirar <= saldoCliente) {
 				return true;
@@ -129,4 +137,13 @@ bool listaCliente::verificarSaldoRetirar(string cedula, double saldoRetirar) {
 		}
 	}
 	return false;
+}
+// nuevo
+// muestra todas las  cuentas bancarias disponibles
+string listaCliente::mostrarCuentasBancarias() {
+	stringstream s;
+	for (const auto& it : clientes) {
+		s << (it)->getNumCuenta() << endl;
+	}
+	return s.str();
 }

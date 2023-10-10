@@ -65,8 +65,10 @@ void Interfaz::menuGerente() {
 void Interfaz::iniciar() {
 
     Cliente* cliente;
+    GeneradorCuentas* generador = new GeneradorCuentas();
     string nombre, cedula;
-    double saldo;
+    double saldo = 0.0;
+    int cuenta = 0; 
 
     do {
         menuPrincipal();
@@ -102,6 +104,7 @@ void Interfaz::iniciar() {
                             saldo = Utiles::validarDecimal();
                             cout << "-------------------------------------------\n";
                             cliente = new Cliente(nombre, cedula, saldo);
+                            cliente->setNumCuenta(generador);
                             clientes->agregarCliente(cliente);
                             cout << "\n------------------------------\n";
                             cout << "Cliente agregado exitosamente.\n";
@@ -167,16 +170,16 @@ void Interfaz::iniciar() {
                         case 1:
                             // Depositar saldo
                             cout << "----------------------\n";
-                            cout << "Cedulas disponibles:\n";
-                            cout << clientes->mostrarCedulas();
+                            cout << "Cuentas bancarias disponibles:\n";
+                            cout << clientes->mostrarCuentasBancarias();
                             cout << "----------------------\n\n";
-                            cout << "Digite la cedula del cliente a depositar saldo: ";
-                            cin >> cedula;
-                            if (clientes->encontrarCliente(cedula)) {
+                            cout << "Digite el numero de cuenta del cliente a depositar saldo: ";
+                            cin >> cuenta;
+                            if (clientes->encontrarClienteNum(cuenta)) {
                                 cout << "Digite el saldo a depositar: ";
                                 saldo = Utiles::validarDecimal();
                                 if (saldo > 0) {
-                                    clientes->depositarSaldo(cedula, saldo);
+                                    clientes->depositarSaldo(cuenta, saldo);
                                     cout << "\n-----------------\n";
                                     cout << "Deposito exitoso.\n";
                                     cout << "-----------------\n";
@@ -189,7 +192,7 @@ void Interfaz::iniciar() {
                             }
                             else {
                                 cout << "\n----------------------------\n";
-                                cout << "La cedula no fue encontrada.\n";
+                                cout << "La cuenta bancaria no fue encontrada.\n";
                                 cout << "----------------------------\n";
                             }
                             system("pause");
@@ -198,16 +201,16 @@ void Interfaz::iniciar() {
                         case 2:
                             // Retirar saldo
                             cout << "----------------------\n";
-                            cout << "Cedulas disponibles:\n";
-                            cout << clientes->mostrarCedulas();
+                            cout << "Cuentas bancarias disponibles:\n";
+                            cout << clientes->mostrarCuentasBancarias();
                             cout << "----------------------\n\n";
-                            cout << "Digite la cedula del cliente a retirar saldo: ";
-                            cin >> cedula;
-                            if (clientes->encontrarCliente(cedula)) {
+                            cout << "Digite la cuenta bancaria del cliente a retirar saldo: ";
+                            cin >> cuenta;
+                            if (clientes->encontrarClienteNum(cuenta)) {
                                 cout << "Digite el saldo a retirar: ";
                                 saldo = Utiles::validarDecimal();
-                                if (saldo > 0 && clientes->verificarSaldoRetirar(cedula, saldo)) {
-                                    clientes->retirarSaldo(cedula, saldo);
+                                if (saldo > 0 && clientes->verificarSaldoRetirar(cuenta, saldo)) {
+                                    clientes->retirarSaldo(cuenta, saldo);
                                     cout << "\n---------------\n";
                                     cout << "Retiro exitoso.\n";
                                     cout << "---------------\n";
@@ -220,7 +223,7 @@ void Interfaz::iniciar() {
                             }
                             else {
                                 cout << "\n----------------------------\n";
-                                cout << "La cedula no fue encontrada.\n";
+                                cout << "La cuenta bancaria no fue encontrada.\n";
                                 cout << "----------------------------\n";
                             }
                             system("pause");
