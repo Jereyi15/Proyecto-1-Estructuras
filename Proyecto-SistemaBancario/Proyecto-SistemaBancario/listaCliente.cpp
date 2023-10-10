@@ -147,3 +147,14 @@ string listaCliente::mostrarCuentasBancarias() {
 	}
 	return s.str();
 }
+
+Cliente* listaCliente::recuperarCliente(string cedula)
+{
+	Cliente* a = nullptr;
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			return *i;
+		}
+	}
+	return nullptr;
+}

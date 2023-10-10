@@ -21,6 +21,7 @@ public:
 	void retirarSaldo(int, double);
 	bool verificarSaldoRetirar(int, double);
 	string mostrarCuentasBancarias();
+	Cliente* recuperarCliente(string);
 
 };
 
