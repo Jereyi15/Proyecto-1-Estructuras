@@ -85,7 +85,28 @@ bool listaCliente::encontrarClienteNum(int cuenta) {
 	}
 	return false;
 }
+Cliente* listaCliente::encontrarClienteObj(int cuenta) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getNumCuenta() == cuenta) {
+			return (*i);
+		}
+		else {
+			return nullptr;
+		}
+	}
+	 
+}
+Cliente* listaCliente::encontrarClienteObj2(string cedula) {
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			return (*i);
+		}
+		else {
+			return nullptr;
+		}
+	}
 
+}
 // retorna true si se encontraron clientes en la lista
 bool listaCliente::hayClientes() {
 	if (clientes.size() > 0) {
@@ -167,4 +188,14 @@ bool listaCliente::transferenciaBancaria(int cuenta, Cliente* clienteTransferir,
 			
 		}
 	}
+}
+Cliente* listaCliente::recuperarCliente(string cedula)
+{
+	Cliente* a = nullptr;
+	for (auto i = clientes.begin(); i != clientes.end(); i++) {
+		if ((*i)->getCedula() == cedula) {
+			return *i;
+		}
+	}
+	return nullptr;
 }

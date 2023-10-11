@@ -424,7 +424,7 @@ bool Interfaz::iniciarSesionComoCliente()
         cin >> _cedula;
         cout << "|Digite la contrasenna|\n";
         cin >> _contrasenna;
-        if (clientes->recuperarCliente(_cedula)!=nullptr && _contrasenna == clientes->recuperarCliente(_cedula)->getContrasena()) {
+        if (clientes->encontrarClienteObj2(_cedula)!=nullptr && _contrasenna == clientes->recuperarCliente(_cedula)->getContrasena()) {
             cout << "\nContrasenna correcta.\n\n";
             cout << "-------------------------------\n";
             system("pause");

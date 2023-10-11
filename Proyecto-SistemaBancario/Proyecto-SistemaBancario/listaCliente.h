@@ -15,12 +15,15 @@ public:
 	void OrdenamientoRadix();
 	bool encontrarCliente(string);
 	bool encontrarClienteNum(int);
+	Cliente* encontrarClienteObj(int);
+	Cliente* encontrarClienteObj2(string);
 	bool hayClientes();
 	string mostrarCedulas();
 	void depositarSaldo(int, double);
 	void retirarSaldo(int, double);
 	bool verificarSaldoRetirar(int, double);
 	string mostrarCuentasBancarias();
-
+	bool transferenciaBancaria(int, Cliente*, double);
+	Cliente* recuperarCliente(string);
 };
 
