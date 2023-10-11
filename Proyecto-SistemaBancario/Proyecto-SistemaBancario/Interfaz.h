@@ -1,5 +1,5 @@
 #include <string>
-
+#include "Gerente.h"
 #include "Utiles.h"
 #include "listaCliente.h"
 
@@ -17,7 +17,14 @@ public:
 	virtual void iniciar();
 	virtual int seleccionarOpcion();
 
+	virtual bool iniciarSesionComoGerente(); // solo tiene iniciar secion para que no se puedan crear cuentas de gerentes
+
+	virtual bool menuSesionClientes();
+	virtual bool iniciarSesionComoCliente();
+	virtual bool crearCuentaCliente();
+
 private:
 	int opc;
 	listaCliente* clientes;
+	Gerente gerente;//new
 };

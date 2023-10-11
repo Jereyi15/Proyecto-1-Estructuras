@@ -1,6 +1,6 @@
 #include "Cliente.h"
 #include <sstream>
-Cliente::Cliente(string _nombre, string _cedula, double _saldo) : nombre(_nombre), cedula(_cedula), saldo(_saldo), numeroCuenta(0) {
+Cliente::Cliente(string _nombre, string _cedula,string _contrasena, double _saldo) : nombre(_nombre), cedula(_cedula),contrasena(_contrasena), saldo(_saldo), numeroCuenta(0) {
 }
 
 Cliente::~Cliente()
@@ -20,6 +20,11 @@ string Cliente::getNombre()
 string Cliente::getCedula()
 {
 	return cedula;
+}
+
+string Cliente::getContrasena()
+{
+	return contrasena;
 }
 
 double Cliente::getSaldo()

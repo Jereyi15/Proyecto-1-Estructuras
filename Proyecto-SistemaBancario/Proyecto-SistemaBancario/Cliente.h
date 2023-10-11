@@ -3,25 +3,25 @@
 #include <string>
 using namespace std;
 class Cliente {
-private:
-	string nombre;
-	string cedula;
-	double saldo;
-
 public:
 
-	Cliente(string, string, double);
+	Cliente(string, string,string, double);
 	~Cliente();
 	void setSaldo(double);
 	string getNombre();
 	string getCedula();
+	string getContrasena();
 	double getSaldo();
 	string toString();
 
-	void setNumCuenta(GeneradorCuentas*); //nuevo
-	int getNumCuenta(); //nuevo
+	void setNumCuenta(GeneradorCuentas*);
+	int getNumCuenta(); 
 
 private: 
-	int numeroCuenta; //nuevo
+	int numeroCuenta; 
+	string nombre;
+	string cedula;
+	string contrasena; // new
+	double saldo;
 };
 

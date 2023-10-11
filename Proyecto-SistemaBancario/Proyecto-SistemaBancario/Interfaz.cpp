@@ -1,6 +1,6 @@
 #include "Interfaz.h"
 
-Interfaz::Interfaz() : opc(-1), clientes(new listaCliente()) {
+Interfaz::Interfaz() : opc(-1), clientes(new listaCliente()), gerente(Gerente("jefeirpaga")) { // se crea un solo gerente que la clave va a ser el acronimo de los desarrolladores(si quieren lo pueden cambiar)
 
 }
 
@@ -9,6 +9,7 @@ Interfaz::~Interfaz() {
 }
 
 void Interfaz::menuPrincipal() {
+    system("cls");
     cout << "-------------------------------\n";
     cout << "Bienvenido al Sistema Bancario.\n";
     cout << "|¿Que deseas hacer?|\n";
@@ -24,7 +25,7 @@ void Interfaz::menuCliente() {
     cout << "|¿Que deseas hacer?|\n";
     cout << "1. Gestion de Clientes.\n";
     cout << "2. Operaciones Bancarias.\n";
-    cout << "3. Volver al menu principal.\n"; // listo
+    cout << "3. Cerrar sesion.\n"; // listo
     cout << "---------------------------------------------\n";
 }
 
@@ -58,15 +59,14 @@ void Interfaz::menuGerente() {
     cout << "2. Registro de solicitudes de tarjetas.\n";
     cout << "3. Historial de Transacciones.\n";
     cout << "4. Aceptacion y cancelacion de tranferencias.\n";
-    cout << "5. Volver al menu principal.\n"; // listo
+    cout << "5. Cerrar sesion.\n"; // listo
     cout << "-------------------------------------------------------\n";
 }
 
 void Interfaz::iniciar() {
-
     Cliente* cliente;
     GeneradorCuentas* generador = new GeneradorCuentas();
-    string nombre, cedula;
+    string nombre, cedula,contrasenna;
     double saldo = 0.0;
     int cuenta = 0, cuenta2 = 0;
 
@@ -76,6 +76,8 @@ void Interfaz::iniciar() {
         system("cls");
         switch (opc) {
         case 1:
+            if (!menuSesionClientes()) break;// aca se hace lo de iniciar sesion de los cleintes
+            system("cls");  
             //Ingresar como Cliente
             do {
                 menuCliente();
@@ -83,6 +85,7 @@ void Interfaz::iniciar() {
                 system("cls");
                 switch (opc) {
                 case 1:
+
                     // Gestion de Clientes
                     do {
                         menuGestionClientes();
@@ -100,10 +103,12 @@ void Interfaz::iniciar() {
                                 cout << "La cedula ya existe, por favor digite otra: ";
                                 cin >> cedula;
                             }
+                            cout << "Digite la contrasenna del nuevo cliente: ";
+                            cin >> contrasenna;
                             cout << "Digite el saldo del nuevo cliente: ";
                             saldo = Utiles::validarDecimal();
                             cout << "-------------------------------------------\n";
-                            cliente = new Cliente(nombre, cedula, saldo);
+                            cliente = new Cliente(nombre, cedula,contrasenna, saldo);
                             cliente->setNumCuenta(generador);
                             clientes->agregarCliente(cliente);
                             cout << "\n------------------------------\n";
@@ -307,6 +312,9 @@ void Interfaz::iniciar() {
             // Ingresar como Gerente
         case 2:
             do {
+                if (!iniciarSesionComoGerente())break; // aca se hace lo de iniciar sesion del gerente
+                
+                system("cls");
                 menuGerente();
                 opc = Interfaz::seleccionarOpcion();
                 system("cls");
@@ -359,4 +367,106 @@ int Interfaz::seleccionarOpcion() {
     cout << "Digite una opcion: ";
     opcion = Utiles::validarEntero();
     return opcion;
+}
+
+bool Interfaz::iniciarSesionComoGerente()
+{
+    string _contrasenna;
+        system("cls");
+        cout << "-------------------------------\n";
+        cout << "Ingresar como Gerente.\n";
+        cout << "|Digite la contrasenna|\n";
+        cin >> _contrasenna;
+        if (_contrasenna == gerente.getContrasena()) {
+            cout << "\nContrasenna correcta.\n\n";
+            cout << "-------------------------------\n";
+            system("pause");
+            return true;
+        }
+        else 
+            cout << "\nContrasenna invalida, intentelo de nuevo.\n\n";
+            cout << "-------------------------------\n";
+            system("pause");
+            return false;
+}
+
+bool Interfaz::menuSesionClientes()
+{
+    int opc;
+    cout << "-------------------------------\n";
+    cout << "Ingresar como Cliente.\n";
+    cout << "|¿Que deseas hacer?|\n";
+    cout << "1. Iniciar sesion.\n";
+    cout << "2. Crear Cuenta.\n";
+    cin >> opc;
+    cout << "-------------------------------\n";
+    if (opc == 1) {
+        return iniciarSesionComoCliente();
+    }
+    else 
+        return crearCuentaCliente();
+}
+
+bool Interfaz::iniciarSesionComoCliente()
+{
+    cout << "-------------------------------\n";
+    cout << "Bienvenido al Sistema Bancario.\n";
+    cout << "|¿Que deseas hacer?|\n";
+    cout << "1. Ingresar como Cliente.\n";
+    cout << "2. Ingresar como Gerente.\n";
+    cout << "3. Salir.\n"; // listo
+    cout << "-------------------------------\n";
+    string _contrasenna, _cedula;
+        system("cls");
+        cout << "-------------------------------\n";
+        cout << "Ingresar como Cliente.\n";
+        cout << "|Digite el numero de cedula|\n";
+        cin >> _cedula;
+        cout << "|Digite la contrasenna|\n";
+        cin >> _contrasenna;
+        if (clientes->recuperarCliente(_cedula)!=nullptr && _contrasenna == clientes->recuperarCliente(_cedula)->getContrasena()) {
+            cout << "\nContrasenna correcta.\n\n";
+            cout << "-------------------------------\n";
+            system("pause");
+            return true;
+        }
+        else 
+            cout << "\nContrasenna o usuario no es valido, intentelo de nuevo.\n\n";
+            cout << "-------------------------------\n";
+            system("pause");
+            return false;
+}
+
+bool Interfaz::crearCuentaCliente()
+{
+    Cliente* cliente;
+    GeneradorCuentas* generador = new GeneradorCuentas();
+    string nombre, cedula, contrasenna;
+    double saldo = 0.0;
+    int cuenta = 0;
+
+    // Registrar Cliente
+    cout << "-------------------------------------------\n";
+    cout << "Digite el nombre del nuevo cliente: ";
+    cin >> nombre;
+    cout << "Digite la cedula del nuevo cliente: ";
+    cin >> cedula;
+    while (clientes->encontrarCliente(cedula)) {
+        cout << "La cedula ya existe, por favor digite otra: ";
+        cin >> cedula;
+    } 
+    cout << "Digite la contrasenna del nuevo cliente: ";
+    cin >> contrasenna;
+    cout << "Digite el saldo del nuevo cliente: ";
+    saldo = Utiles::validarDecimal();
+    cout << "-------------------------------------------\n";
+    cliente = new Cliente(nombre, cedula,contrasenna, saldo);
+    cliente->setNumCuenta(generador);
+    clientes->agregarCliente(cliente);
+    cout << "\n------------------------------\n";
+    cout << "Cliente agregado exitosamente.\n";
+    cout << "------------------------------\n";
+    system("pause");
+    system("cls");
+    return true;
 }

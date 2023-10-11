@@ -57,7 +57,7 @@ void listaCliente::OrdenamientoRadix() {
 			listasT[9 - digito].push_back(cliente);//aqui se decide la manera de ordenar, ya sea descendente o ascendente
 		}
 
-		clientes.clear();//esto elimina temporalmente los elementos de la lista, ya que el funcionamiento radix ya encontró el orden
+		clientes.clear();//esto elimina temporalmente los elementos de la lista, ya que el funcionamiento radix ya encontrï¿½ el orden
 						// y elimina los valores para reacomodarlos en las listas de listasT, para luego devolverlas a la lista original ya ordenados
 
 		for (const auto& listasTem : listasT) {
@@ -167,14 +167,4 @@ bool listaCliente::transferenciaBancaria(int cuenta, Cliente* clienteTransferir,
 			
 		}
 	}
-}
-
-//nuevo
-Cliente* listaCliente::encontrarClienteObj(int cuenta) {
-	for (auto i = clientes.begin(); i != clientes.end(); i++) {
-		if ((*i)->getNumCuenta() == cuenta) {
-			return (*i);
-		}
-	}
-	return nullptr;
 }
