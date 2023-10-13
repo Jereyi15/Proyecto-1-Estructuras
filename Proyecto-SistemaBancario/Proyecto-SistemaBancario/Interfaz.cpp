@@ -329,7 +329,9 @@ void Interfaz::iniciar() {
                     break;
                 case 3:
                     // Historial de Transacciones
-
+                    cout << clientes->mostrarHistorialTransacciones();
+                    system("pause");
+                    system("cls");
                     break;
                 case 4:
                     // Aceptación y cancelación de tranferencias
