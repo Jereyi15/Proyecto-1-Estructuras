@@ -19,7 +19,7 @@ public:
 
 	virtual bool iniciarSesionComoGerente(); // solo tiene iniciar secion para que no se puedan crear cuentas de gerentes
 
-	virtual bool menuSesionClientes();
+	virtual void menuDeshacerTransaccion();
 	virtual bool iniciarSesionComoCliente();
 	virtual bool crearCuentaCliente();
 
