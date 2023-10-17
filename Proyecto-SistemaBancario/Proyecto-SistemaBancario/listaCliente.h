@@ -15,13 +15,18 @@ class listaCliente {
 		double monto;
 		double saldoRestante;
 		int cuentaTransferencia;
+		int contador;
 	};
 
 private:
 	list<Cliente*> clientes;
 	stack<Transaccion> historialTransacciones;
+	int contador1;
 
 public:
+	//Constructor
+	listaCliente();
+
 	//Gestion clientes
 	void agregarCliente(Cliente*);
 	void eliminarCliente(string);
@@ -53,11 +58,16 @@ public:
 	void agregarDeposito(int, string, double, double, double);
 	void agregarRetiro(int, string, double, double, double);
 	void agregarTransferencia(int, string, int, double, double, double);
-	void deshacerDeposito();
-	void deshacerRetiro();
-	void deshacerTransferencia();
 	string mostrarHistorialTransacciones();
-
+	
+	//Para Deshacer
+	void deshacerDeposito(int, int, Cliente*);
+	void deshacerRetiro(int, int, Cliente*);
+	void deshacerTransferencia(int, int, Cliente*, Cliente*);
+	string mostrarDepositos();
+	string mostrarRetiros();
+	string mostrarTransferencias();
+	int obtenerCuentaAso(int, int);
 
 
 

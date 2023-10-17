@@ -22,6 +22,9 @@ public:
 	virtual void menuDeshacerTransaccion();
 	virtual bool iniciarSesionComoCliente();
 	virtual bool crearCuentaCliente();
+	virtual void deshacerTransferencia();
+	virtual void deshacerDeposito();
+	virtual void deshacerRetiro();
 
 private:
 	int opc;

@@ -13,19 +13,19 @@ void Interfaz::menuPrincipal() {
     cout << "-------------------------------\n";
     cout << "Bienvenido al Sistema Bancario.\n";
     cout << "| Que deseas hacer?|\n";
-    cout << "1. Ingresar como Cliente.\n";
-    cout << "2. Ingresar como Gerente.\n";
-    cout << "3. Registrar cliente nuevo.\n";
+    cout << "1. Ingresar como Cliente.\n"; //listo
+    cout << "2. Ingresar como Gerente.\n"; // listo
+    cout << "3. Registrar cliente nuevo.\n"; //listo
     cout << "4. Salir.\n"; // listo
     cout << "-------------------------------\n";
 }
 
 void Interfaz::menuCliente() {
     cout << "---------------------------------------------\n";
-    cout << "Bienvenido al Sistema Bancario como Cliente.\n";
+    cout << "Bienvenido al Sistema Bancario como Cliente.\n"; 
     cout << "| Que deseas hacer?|\n";
-    cout << "1. Operaciones Bancarias.\n";
-    cout << "2. Registrar solicitud de tarjeta de credito.\n";
+    cout << "1. Operaciones Bancarias.\n"; //listo
+    cout << "2. Registrar solicitud de tarjeta de credito.\n";//falta
     cout << "3. Cerrar sesion.\n"; // listo
     cout << "---------------------------------------------\n";
 }
@@ -46,7 +46,7 @@ void Interfaz::menuOperacionesBancarias() {
     cout << "| Que deseas hacer?|\n";
     cout << "1. Depositar saldo.\n"; // listo
     cout << "2. Retirar saldo.\n"; // listo
-    cout << "3. Transferir saldo.\n";
+    cout << "3. Transferir saldo.\n"; //falta
     cout << "4. Volver al menu del cliente.\n"; // listo
     cout << "-------------------------------\n";
 }
@@ -56,20 +56,20 @@ void Interfaz::menuGerente() {
     cout << "Bienvenido al Sistema Bancario como Gerente.\n";
     cout << "| Que deseas hacer?|\n";
     cout << "1. Gestion de Clientes.\n";
-    cout << "2. Aprobacion y Denegacion de solicitudes de tarjetas.\n";
-    cout << "3. Historial de Transacciones Bancarias.\n";
-    cout << "4. Deshacer Transaccion Bancaria\n";
+    cout << "2. Aprobacion y Denegacion de solicitudes de tarjetas.\n"; //falta
+    cout << "3. Historial de Transacciones Bancarias.\n"; //listo
+    cout << "4. Deshacer Transaccion Bancaria\n"; //listo
     cout << "5. Cerrar sesion.\n"; // listo
     cout << "-------------------------------------------------------\n";
 }
 
-void Interfaz::menuDeshacerTransaccion() { // nuevooo
+void Interfaz::menuDeshacerTransaccion() { // casi
     cout << "-------------------------------------------------------\n";
     cout << "| Que tipo de transacción bancaria desea deshacer?|\n";
     cout << "1. Retiro.\n";
     cout << "2. Deposito.\n";
     cout << "3. Transferencia entre cuentas.\n";
-    cout << "4. Volver al menu del Gerente.\n";
+    cout << "4. Volver al menu del Gerente.\n"; //listo
     cout << "-------------------------------------------------------\n";
 }
 
@@ -192,9 +192,7 @@ void Interfaz::iniciar() {
                                                 cout << "Digite el monto que desea transferir: ";
                                                 cin >> saldo;
 
-                                                // Obtener el primer cliente
-                                                Cliente* clienteOrigen = clientes->encontrarClienteObj(cuenta);
-                                                // Obtener el segundo cliente
+                                                // Obtener el cliente de destino
                                                 Cliente* clienteDestino = clientes->encontrarClienteObj(cuenta2);
 
                                                 //Transferencia
@@ -357,8 +355,41 @@ void Interfaz::iniciar() {
                         break;
                     case 4:
                         //Deshacer transacciones bancarias //Hace falta
-                        system("pause");
-                        system("cls");
+                        do {
+                            menuDeshacerTransaccion();
+                            opc = Interfaz::seleccionarOpcion();
+                            system("cls");
+                            switch (opc) {
+                            case 1:
+                                //Retiro
+                                Interfaz::deshacerRetiro();
+                                system("pause");
+                                system("cls");
+                                break;
+                            case 2:
+                                //Deposito
+                                Interfaz::deshacerDeposito();
+                                system("pause");
+                                system("cls");
+                                break;
+                            case 3:
+                                //Tranferencia
+                                Interfaz::deshacerTransferencia();
+                                system("pause");
+                                system("cls");
+                                break;
+                            case 4:
+                                //Salir
+                                system("pause");
+                                system("cls");
+                                break;
+                            default:
+                                cout << Utiles::opcionInvalida();
+                                system("pause");
+                                system("cls");
+                                break;
+                            }
+                        } while (opc != 4);
                         break;
                     case 5:
                         //Cerrar Sesion
@@ -490,4 +521,55 @@ bool Interfaz::crearCuentaCliente()
     } while (flag == false);
 
     return true;
+}
+void Interfaz::deshacerDeposito() { //nuevo
+    int cuenta, numTrans;
+    cout << clientes->mostrarDepositos();
+
+    cout << "Ingrese el numero de cuenta asociada al deposito que desea deshacer: ";
+    cin >> cuenta;
+    if (clientes->encontrarClienteNum(cuenta)) {
+        cout << "Ingrese el numero de transaccion: ";
+        cin >> numTrans;
+        Cliente* cliente = clientes->encontrarClienteObj(cuenta);
+        clientes->deshacerDeposito(cuenta, numTrans, cliente);
+    }
+    cout << "-------------------------------\n";
+    cout << "Deposito deshecho exitosamente.\n";
+    cout << "-------------------------------\n";
+}
+void Interfaz::deshacerRetiro() {
+    int cuenta, numTrans;
+    cout << clientes->mostrarRetiros();
+
+
+    cout << "Ingrese el numero de cuenta asociada al deposito que desea deshacer: ";
+    cin >> cuenta;
+    if (clientes->encontrarClienteNum(cuenta)) {
+        cout << "Ingrese el numero de transaccion: ";
+        cin >> numTrans;
+        Cliente* cliente = clientes->encontrarClienteObj(cuenta);
+        clientes->deshacerRetiro(cuenta, numTrans, cliente);
+    }
+    cout << "-------------------------------\n";
+    cout << "Retiro deshecho exitosamente.\n";
+    cout << "-------------------------------\n";
+}
+void Interfaz::deshacerTransferencia() {
+    int cuenta, numTrans;
+    cout << clientes->mostrarTransferencias();
+
+    cout << "Ingrese el numero de cuenta asociada al deposito que desea deshacer: ";
+    cin >> cuenta;
+    if (clientes->encontrarClienteNum(cuenta)) {
+        cout << "Ingrese el numero de transaccion: ";
+        cin >> numTrans;
+        Cliente* cliente = clientes->encontrarClienteObj(cuenta);
+        int cuentaAso = clientes->obtenerCuentaAso(cuenta, numTrans);
+        Cliente* cliente2 = clientes->encontrarClienteObj(cuentaAso);
+        clientes->deshacerTransferencia(cuenta, numTrans, cliente, cliente2);
+    }
+    cout << "----------------------------------\n";
+    cout << "Transferencia deshecha exitosamente.\n";
+    cout << "----------------------------------\n";
 }

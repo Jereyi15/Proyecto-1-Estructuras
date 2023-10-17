@@ -1,6 +1,9 @@
 #include "listaCliente.h"
 #include <sstream>
 using namespace std;
+
+listaCliente::listaCliente() : contador1(0) {}
+
 void listaCliente::agregarCliente(Cliente* cliente) {
 	clientes.push_back(cliente);//Esto agrega el elemento al final de la lista
 }
@@ -90,22 +93,17 @@ Cliente* listaCliente::encontrarClienteObj(int cuenta) {
 		if ((*i)->getNumCuenta() == cuenta) {
 			return (*i);
 		}
-		else {
-			return nullptr;
-		}
 	}
-
+	return nullptr;
 }
+
 Cliente* listaCliente::encontrarClienteObj2(string cedula) {
 	for (auto i = clientes.begin(); i != clientes.end(); i++) {
 		if ((*i)->getCedula() == cedula) {
 			return (*i);
 		}
-		else {
-			return nullptr;
-		}
 	}
-
+	return nullptr;
 }
 // retorna true si se encontraron clientes en la lista
 bool listaCliente::hayClientes() {
@@ -233,6 +231,7 @@ Cliente* listaCliente::recuperarCliente(string cedula)
 // Metodos para el historial de transacciones
 void listaCliente::agregarDeposito(int cuenta, string nombre, double monto, double saldoAntes, double saldoDesp) {
 	Transaccion transaccion;
+	contador1++;
 	transaccion.tipo = "Deposito";
 	transaccion.cuenta = cuenta;
 	transaccion.nombreCliente = nombre;
@@ -240,11 +239,12 @@ void listaCliente::agregarDeposito(int cuenta, string nombre, double monto, doub
 	transaccion.saldo = saldoAntes;
 	transaccion.cuentaTransferencia = 0;
 	transaccion.saldoRestante = saldoDesp;
+	transaccion.contador = contador1;
 	historialTransacciones.push(transaccion);
 }
-
 void listaCliente::agregarRetiro(int cuenta, string nombre, double monto, double saldoAntes, double saldoDesp) {
 	Transaccion transaccion;
+	contador1++;
 	transaccion.tipo = "Retiro";
 	transaccion.cuenta = cuenta;
 	transaccion.nombreCliente = nombre;
@@ -252,11 +252,12 @@ void listaCliente::agregarRetiro(int cuenta, string nombre, double monto, double
 	transaccion.saldo = saldoAntes;
 	transaccion.saldoRestante = saldoDesp;
 	transaccion.cuentaTransferencia = 0;
+	transaccion.contador = contador1;
 	historialTransacciones.push(transaccion);
 }
-
 void listaCliente::agregarTransferencia(int cuenta, string nombre, int cuentaAsociada, double monto, double saldoAntes, double saldoDesp) {
 	Transaccion transaccion;
+	contador1++;
 	transaccion.tipo = "Transferencia";
 	transaccion.cuenta = cuenta;
 	transaccion.nombreCliente = nombre;
@@ -264,17 +265,83 @@ void listaCliente::agregarTransferencia(int cuenta, string nombre, int cuentaAso
 	transaccion.monto = monto;
 	transaccion.saldo = saldoAntes;
 	transaccion.saldoRestante = saldoDesp;
+	transaccion.contador = contador1;
 	historialTransacciones.push(transaccion);
 }
+void listaCliente::deshacerDeposito(int cuenta, int contador, Cliente* cliente) {
+	stack<Transaccion> aux = historialTransacciones;
+	contador1++;
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.contador == contador && transaccion.cuenta == cuenta) {
+			double deposito = transaccion.monto; //Se accede al monto que se deposito
+			double SaldoA = cliente->getSaldo(); //Accedemos al saldo que tiene actualmente
+			double SaldoR = cliente->getSaldo() - deposito; //Le restamos el monto que había depositado
+			
+			//Actualizamos los datos relevantes
+			transaccion.monto = deposito;
+			transaccion.saldo = SaldoA;
+			transaccion.saldoRestante = SaldoR;
+			transaccion.contador = contador1;
 
-void listaCliente::deshacerDeposito() {
+			//Actualizamos atributos del cliente
+			cliente->setSaldo(SaldoR);
 
+			historialTransacciones.push(transaccion);
+
+		}
+		aux.pop();
+	}
 }
-void listaCliente::deshacerRetiro() {
+void listaCliente::deshacerRetiro(int cuenta, int contador, Cliente* cliente) {
+	stack<Transaccion> aux = historialTransacciones;
+	contador1++;
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.contador == contador && transaccion.cuenta == cuenta) {
+			double retiro = transaccion.monto; //Se accede al monto que se retiro
+			double SaldoA = cliente->getSaldo(); //Accedemos al saldo que tiene actualmente
+			double SaldoR = cliente->getSaldo() + retiro; //Le restamos el monto que había depositado el cual va a ser el saldo restante
 
+			//Actualizamos los datos relevantes
+			transaccion.monto = retiro;
+			transaccion.saldo = SaldoA;
+			transaccion.saldoRestante = SaldoR;
+			transaccion.contador = contador1;
+
+			//Actualizamos atributos del cliente
+			cliente->setSaldo(SaldoR);
+
+			historialTransacciones.push(transaccion);
+		}
+		aux.pop();
+	}
 }
-void listaCliente::deshacerTransferencia() {
+void listaCliente::deshacerTransferencia(int cuenta, int contador, Cliente* cliente, Cliente* cliente2) {
+	stack<Transaccion> aux = historialTransacciones;
+	contador1++;
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.contador == contador && transaccion.cuenta == cuenta) {
+			double transferencia = transaccion.monto;
+			double SaldoA = cliente->getSaldo(); //Se accede al saldo que tenia en el momento
+			double SaldoR = cliente->getSaldo() + transferencia; //Se le suma el monto que había transferido
 
+			transaccion.monto = transferencia;
+			transaccion.saldo = SaldoA;
+			transaccion.saldoRestante = SaldoR;
+			transaccion.contador = contador1;
+
+			//Actualizamos atributos del cliente
+			cliente->setSaldo(SaldoR);
+			double SaldoR2 = cliente2->getSaldo() - transferencia;
+			cliente2->setSaldo(SaldoR2);
+		
+			historialTransacciones.push(transaccion);
+
+		}
+		aux.pop();
+	}
 }
 string listaCliente::mostrarHistorialTransacciones() {
 	stack<Transaccion> aux = historialTransacciones;
@@ -289,10 +356,101 @@ string listaCliente::mostrarHistorialTransacciones() {
 		s << "Saldo Anterior: " << transaccion.saldo << endl;
 		s << "Monto: " << transaccion.monto << endl;
 		s << "Saldo Restante: " << transaccion.saldoRestante << endl;
-		s << "Cuenta de Transferencia: " << transaccion.cuentaTransferencia << endl;
+		s << "Cuenta transferida: " << transaccion.cuentaTransferencia << endl;
+		s << "Numero de transaccion: " << transaccion.contador << endl;
 		s << "--------------------" << endl << endl;
 
 		aux.pop();
 	}
 	return s.str();
+}
+string listaCliente::mostrarDepositos() {
+	stack<Transaccion> aux = historialTransacciones; // Hacer una copia de la pila
+	stringstream s;
+
+	s << endl << "--------------------" << endl;
+	s << endl << "Historial de Depositos" << endl;
+	s << endl << "--------------------" << endl;
+
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.tipo == "Deposito") {
+			s << endl << "--------------------" << endl;
+			s << "Tipo: " << transaccion.tipo << endl;
+			s << "Cuenta: " << transaccion.cuenta << endl;
+			s << "Nombre Cliente: " << transaccion.nombreCliente << endl;
+			s << "Saldo Anterior: " << transaccion.saldo << endl;
+			s << "Monto: " << transaccion.monto << endl;
+			s << "Saldo Restante: " << transaccion.saldoRestante << endl;
+			s << "Cuenta de Transferencia: " << transaccion.cuentaTransferencia << endl;
+			s << "Numero de transaccion: " << transaccion.contador << endl;
+			s << "--------------------" << endl << endl;
+		}
+		aux.pop();
+	}
+	return s.str();
+}
+string listaCliente::mostrarRetiros() {
+	stack<Transaccion> aux = historialTransacciones; // Hacer una copia de la pila
+	stringstream s;
+
+	s << endl << "--------------------" << endl;
+	s << endl << "Historial de Retiros" << endl;
+	s << endl << "--------------------" << endl;
+
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.tipo == "Retiro") {
+			s << endl << "--------------------" << endl;
+			s << "Tipo: " << transaccion.tipo << endl;
+			s << "Cuenta: " << transaccion.cuenta << endl;
+			s << "Nombre Cliente: " << transaccion.nombreCliente << endl;
+			s << "Saldo Anterior: " << transaccion.saldo << endl;
+			s << "Monto: " << transaccion.monto << endl;
+			s << "Saldo Restante: " << transaccion.saldoRestante << endl;
+			s << "Cuenta de Transferencia: " << transaccion.cuentaTransferencia << endl;
+			s << "Numero de transaccion: " << transaccion.contador << endl;
+			s << "--------------------" << endl << endl;
+		}
+		aux.pop();
+	}
+	return s.str();
+}
+string listaCliente::mostrarTransferencias() {
+	stack<Transaccion> aux = historialTransacciones; // Hacer una copia de la pila
+	stringstream s;
+
+	s << endl << "--------------------" << endl;
+	s << endl << "Historial de Transferencias" << endl;
+	s << endl << "--------------------" << endl;
+
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.tipo == "Transferencia") {
+			s << endl << "--------------------" << endl;
+			s << "Tipo: " << transaccion.tipo << endl;
+			s << "Cuenta: " << transaccion.cuenta << endl;
+			s << "Nombre Cliente: " << transaccion.nombreCliente << endl;
+			s << "Saldo Anterior: " << transaccion.saldo << endl;
+			s << "Monto: " << transaccion.monto << endl;
+			s << "Saldo Restante: " << transaccion.saldoRestante << endl;
+			s << "Cuenta de Transferencia: " << transaccion.cuentaTransferencia << endl;
+			s << "Numero de transaccion: " << transaccion.contador << endl;
+			s << "--------------------" << endl << endl;
+		}
+		aux.pop();
+	}
+	return s.str();
+}
+int listaCliente::obtenerCuentaAso(int cuenta, int contador) {
+	stack<Transaccion> aux = historialTransacciones;
+
+	while (!aux.empty()) {
+		Transaccion transaccion = aux.top();
+		if (transaccion.contador == contador && transaccion.cuenta == cuenta) {
+			int cuentaAso = transaccion.cuentaTransferencia;
+			return cuentaAso;
+		}
+		aux.pop();
+	}
 }
